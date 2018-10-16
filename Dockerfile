@@ -18,8 +18,12 @@ RUN apt-get remove -y ${BUILD_DEPENDENCIES}
 
 WORKDIR /home
 
-COPY ./plantuml.1.2018.9.jar /usr/local/bin/plantuml.jar
+ADD https://oss.sonatype.org/content/repositories/releases/net/sourceforge/plantuml/plantuml/1.2018.9/plantuml-1.2018.9.jar /usr/local/bin/plantuml.jar
 
-ENTRYPOINT ["java", "-jar", "/usr/local/bin/plantuml.jar"]
+COPY exec.sh /usr/local/bin/
+
+ENV PLANTUML_LIMIT_SIZE=4096
+
+ENTRYPOINT ["/usr/local/bin/exec.sh"]
 
 CMD ["-h"]
